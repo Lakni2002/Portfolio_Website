@@ -1,10 +1,46 @@
+import { useEffect, useState } from "react";
 import me from "../assets/images/me.png";
 
 export default function About() {
+  // ✅ Typing text animation
+  const texts = ["UI/UX Designer", "Front-end Developer"];
+  const [textIndex, setTextIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const fullText = texts[textIndex];
+    const speed = isDeleting ? 150 : 200; // delete faster, type slower
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setCurrentText(fullText.substring(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+
+        // pause after typing full word
+        if (charIndex + 1 === fullText.length) {
+          setTimeout(() => setIsDeleting(true), 900);
+        }
+      } else {
+        setCurrentText(fullText.substring(0, charIndex - 1));
+        setCharIndex(charIndex - 1);
+
+        // move to next text when fully deleted
+        if (charIndex - 1 === 0) {
+          setIsDeleting(false);
+          setTextIndex((prev) => (prev + 1) % texts.length);
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, textIndex]);
+
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-[#0b0618] text-white"
+      className="relative overflow-hidden bg-transparent text-white"
     >
       {/* soft glow */}
       <div className="pointer-events-none absolute inset-0">
@@ -25,7 +61,7 @@ export default function About() {
 
           {/* RIGHT: Text */}
           <div className="md:pl-4">
-            {/* Hello line + SMALL arrow */}
+            {/* Hello line + SMALL arrow like your reference */}
             <div className="relative mb-6 inline-block">
               <p className="text-[18px] leading-snug text-white/80">
                 Hello! I Am{" "}
@@ -41,7 +77,6 @@ export default function About() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {/* curve */}
                 <path
                   d="M135 10 C95 2, 65 6, 40 18 C20 28, 12 38, 6 48"
                   className="arrow-stroke"
@@ -53,10 +88,14 @@ export default function About() {
               </svg>
             </div>
 
-            {/* Big title */}
-            <h1 className="text-balance text-[44px] font-semibold leading-[1.12] tracking-wide md:text-[56px]">
-              I am a UI/UX Designer <br className="hidden md:block" />
-              and Front-end Developer
+            {/* ✅ BIG title (keep your same) */}
+            <h1 className="min-h-[120px] text-balance text-[44px] font-semibold leading-[1.12] tracking-wide md:min-h-[150px] md:text-[56px]">
+
+              I am a{" "}
+              <span className="text-[#a855f7]">
+                {currentText}
+                <span className="typing-cursor">|</span>
+              </span>
             </h1>
 
             {/* Paragraph */}
