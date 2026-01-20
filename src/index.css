@@ -183,3 +183,34 @@
   }
 }
 
+/* =========================
+   PROJECTS HOVER EFFECT
+========================= */
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 30px 120px rgba(0, 0, 0, 0.5);
+}
+
+.project-glow {
+  background: radial-gradient(
+    circle at top,
+    rgba(168, 85, 247, 0.22),
+    transparent 70%
+  );
+}
+
+.project-img img {
+  transition: transform 0.45s ease;
+}
+
+.project-card:hover .project-img img {
+  transform: scale(1.06);
+}

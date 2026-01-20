@@ -3,14 +3,17 @@ import Particles from "./component/Particles";
 
 import About from "./component/About";
 import Skills from "./component/Skills";
+import Projects from "./component/Projects";
+import Education from "./component/Education";
 
-import SplashCursor from "./components/SplashCursor";
+
+// import SplashCursor from "./components/SplashCursor";
 
 export default function App() {
   return (
     <div className="relative min-h-screen bg-[#0b0618] text-white overflow-hidden">
       {/* ORB (back layer) */}
-      <SplashCursor />
+      {/* <SplashCursor /> */}
       
       {/* PARTICLES (middle layer, above orb) */}
       <div className="fixed inset-0 z-[5] pointer-events-none">
@@ -33,6 +36,9 @@ export default function App() {
         <main className="pt-[86px]">
           <About />
           <Skills />
+          <Projects />
+          <Education />
+
         </main>
       </div>
     </div>
