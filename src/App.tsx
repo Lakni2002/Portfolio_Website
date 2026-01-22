@@ -5,6 +5,7 @@ import About from "./component/About";
 import Skills from "./component/Skills";
 import Projects from "./component/Projects";
 import Education from "./component/Education";
+import Contact from "./component/Contact";
 
 
 // import SplashCursor from "./components/SplashCursor";
@@ -38,6 +39,7 @@ export default function App() {
           <Skills />
           <Projects />
           <Education />
+          <Contact />
 
         </main>
       </div>
