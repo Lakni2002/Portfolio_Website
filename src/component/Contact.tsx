@@ -1,8 +1,60 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Mail, Phone, MapPin, Linkedin } from "lucide-react";
 import MagicBentoCard from "./MagicBentoCard";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
+
+  // ✅ NEW: email validation message
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  // ✅ PUT YOUR EMAILJS VALUES HERE
+  const SERVICE_ID = "service_v0sv67i";
+  const TEMPLATE_ID = "template_63v7hnm";
+  const PUBLIC_KEY = "Vg6yUJmrQiyj95K2-";
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus(null);
+
+    // ✅ clear email error before submit
+    setEmailError(null);
+
+    if (!formRef.current) return;
+
+    // ✅ block submit if email is invalid
+    const emailInput = formRef.current.querySelector(
+      'input[name="email"]'
+    ) as HTMLInputElement | null;
+
+    if (emailInput && !emailInput.checkValidity()) {
+      setEmailError("❌ Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
+        publicKey: PUBLIC_KEY,
+      });
+
+      setStatus("✅ Message sent successfully!");
+      formRef.current.reset();
+
+      // ✅ clear email error after success
+      setEmailError(null);
+    } catch (err) {
+      setStatus("❌ Failed to send. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -22,9 +74,9 @@ export default function Contact() {
 
         <div className="mt-16 grid items-start gap-10 md:grid-cols-2">
           {/* LEFT: contact pills */}
-          <div className="space-y-30">
+          <div className="space-y-10">
             <ContactPill
-              icon={<Mail className="h-5 w-5" />}
+              icon={<Mail className="h-6 w-5" />}
               text="lakniweera20@gmail.com"
               href="mailto:lakniweera20@gmail.com"
             />
@@ -37,41 +89,59 @@ export default function Contact() {
             <ContactPill
               icon={<Linkedin className="h-5 w-5" />}
               text="Lakni-Weerasinghe"
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/in/lakni-weerasinghe-5a4610352/"
             />
           </div>
 
-          {/* RIGHT: glass form card (Magic Bento hover glow) */}
+          {/* RIGHT: form */}
           <MagicBentoCard className="bg-white/5 p-8 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
-            <form
-              className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // Later you can connect EmailJS / Formspree here
-              }}
-            >
+            <form ref={formRef} className="space-y-6" onSubmit={onSubmit}>
               <Field label="E-mail">
-                <input type="email" placeholder="" className={inputClass} />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className={inputClass}
+                  // ✅ NEW: show custom message under card (not browser popup)
+                  onInvalid={(e) => {
+                    e.preventDefault();
+                    setEmailError("❌ Please enter a valid email address.");
+                  }}
+                  // ✅ NEW: remove error when user starts fixing it
+                  onInput={(e) => {
+                    const v = (e.currentTarget as HTMLInputElement).value;
+                    if (v && (e.currentTarget as HTMLInputElement).checkValidity()) {
+                      setEmailError(null);
+                    }
+                  }}
+                />
               </Field>
 
               <Field label="Name">
-                <input type="text" placeholder="" className={inputClass} />
+                <input type="text" name="name" required className={inputClass} />
               </Field>
 
               <Field label="Subject">
-                <input type="text" placeholder="" className={inputClass} />
+                <input type="text" name="subject" required className={inputClass} />
               </Field>
 
               <Field label="Message">
-                <textarea rows={4} placeholder="" className={textareaClass} />
+                <textarea rows={4} name="message" required className={textareaClass} />
               </Field>
 
               <button
                 type="submit"
-                className="mt-2 w-full rounded-full bg-gradient-to-r from-[#5b21b6] via-[#7c3aed] to-[#6d28d9] py-3 font-medium shadow-[0_16px_50px_rgba(124,58,237,0.35)] transition hover:brightness-110 active:scale-[0.99]"
+                disabled={loading}
+                className="mt-2 w-full rounded-full bg-gradient-to-r from-[#5b21b6] via-[#7c3aed] to-[#6d28d9] py-3 font-medium shadow-[0_16px_50px_rgba(124,58,237,0.35)] transition hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
               >
-                Send
+                {loading ? "Sending..." : "Send"}
               </button>
+
+              {/* ✅ NEW: show email error below the card like other messages */}
+              {emailError && <p className="pt-2 text-sm text-white/80">{emailError}</p>}
+
+              {/* existing status message (success / failed) */}
+              {status && <p className="pt-2 text-sm text-white/80">{status}</p>}
             </form>
           </MagicBentoCard>
         </div>
@@ -107,7 +177,6 @@ function ContactPill({
       </a>
     );
   }
-
   return pill;
 }
 
@@ -127,7 +196,13 @@ function Field({
 }
 
 const inputClass =
-  "w-full rounded-xl bg-transparent px-4 py-3 text-sm text-white/90 placeholder:text-white/40 ring-1 ring-white/15 outline-none backdrop-blur-md transition focus:ring-2 focus:ring-purple-500/50";
+  "w-full rounded-xl bg-transparent focus:bg-transparent active:bg-transparent hover:bg-transparent " +
+  "px-4 py-3 text-sm text-white/90 placeholder:text-white/40 " +
+  "ring-1 ring-white/15 outline-none backdrop-blur-md transition " +
+  "focus:ring-2 focus:ring-purple-500/50";
 
 const textareaClass =
-  "w-full resize-none rounded-xl bg-transparent px-4 py-3 text-sm text-white/90 placeholder:text-white/40 ring-1 ring-white/15 outline-none backdrop-blur-md transition focus:ring-2 focus:ring-purple-500/50";
+  "w-full resize-none rounded-xl bg-transparent focus:bg-transparent active:bg-transparent hover:bg-transparent " +
+  "px-4 py-3 text-sm text-white/90 placeholder:text-white/40 " +
+  "ring-1 ring-white/15 outline-none backdrop-blur-md transition " +
+  "focus:ring-2 focus:ring-purple-500/50";

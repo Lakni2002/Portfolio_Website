@@ -1,7 +1,28 @@
+import { useState } from "react";
+import { FaGithub } from "react-icons/fa";
+
 import carelinkImg from "../assets/images/projects/carelink.png";
 import pawconnectImg from "../assets/images/projects/pawconnect.png";
 
+// ✅ Add 2 more images (MAKE SURE these files exist)
+// import project3Img from "../assets/images/projects/project3.png";
+// import project4Img from "../assets/images/projects/project4.png";
+
 export default function Projects() {
+  const [showMore, setShowMore] = useState(false);
+
+  // ✅ Update these links to your real links
+  const carelinkRepo = "https://github.com/your-username/carelink";
+  const pawconnectRepo = "https://github.com/Lakni2002/PawConnect-Website";
+  const project3Repo = "https://github.com/your-username/project-3";
+  const project4Repo = "https://github.com/your-username/project-4";
+
+  // (Optional) If you have case study pages/links, put them here
+  const carelinkCaseStudy = "#";
+  const pawconnectCaseStudy = "#";
+  const project3CaseStudy = "#";
+  const project4CaseStudy = "#";
+
   return (
     <section
       id="projects"
@@ -21,7 +42,7 @@ export default function Projects() {
 
         <div className="mt-16 space-y-16">
           {/* =================== CARD 01 =================== */}
-          <div className="project-card group rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+          <div className="project-card group relative rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
             <div className="grid items-center gap-10 p-10 md:grid-cols-2">
               {/* left text */}
               <div>
@@ -36,9 +57,24 @@ export default function Projects() {
                   improving access to healthcare in Sri Lanka.
                 </p>
 
-                <button className="mt-8 rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20">
-                  View Case study
-                </button>
+                <div className="mt-8 flex items-center gap-3">
+                  <a
+                    href={carelinkCaseStudy}
+                    className="rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20"
+                  >
+                    View Case study
+                  </a>
+
+                  <a
+                    href={carelinkRepo}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open CareLink GitHub repository"
+                    className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/10 text-white/85 ring-1 ring-white/15 backdrop-blur-md transition hover:bg-white/20 hover:scale-105"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                </div>
               </div>
 
               {/* right image */}
@@ -53,12 +89,11 @@ export default function Projects() {
               </div>
             </div>
 
-            {/* Glow Overlay */}
             <div className="project-glow pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
           </div>
 
           {/* =================== CARD 02 =================== */}
-          <div className="project-card group rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+          <div className="project-card group relative rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
             <div className="grid items-center gap-10 p-10 md:grid-cols-2">
               {/* left image */}
               <div className="order-2 flex justify-center md:order-1 md:justify-start">
@@ -86,23 +121,147 @@ export default function Projects() {
                   creating a transparent, community-driven rescue ecosystem.
                 </p>
 
-                <button className="mt-8 rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20">
-                  View Case study
-                </button>
+                <div className="mt-8 flex items-center gap-3">
+                  <a
+                    href={pawconnectCaseStudy}
+                    className="rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20"
+                  >
+                    View Case study
+                  </a>
+
+                  <a
+                    href={pawconnectRepo}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open PawConnect GitHub repository"
+                    className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/10 text-white/85 ring-1 ring-white/15 backdrop-blur-md transition hover:bg-white/20 hover:scale-105"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Glow Overlay */}
             <div className="project-glow pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
           </div>
+
+          {/* ✅ Show extra projects only after clicking View More */}
+          {showMore && (
+            <>
+              {/* =================== CARD 03 =================== */}
+              <div className="project-card group relative rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+                <div className="grid items-center gap-10 p-10 md:grid-cols-2">
+                  {/* left text */}
+                  <div>
+                    <h3 className="text-2xl font-semibold text-white/95">
+                      E-Commerce Shop Website
+                    </h3>
+
+                    <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
+                      A modern responsive shopping website with product
+                      categories, product details, cart UI, and a clean checkout
+                      flow designed for a smooth user experience.
+                    </p>
+
+                    <div className="mt-8 flex items-center gap-3">
+                      <a
+                        href={project3CaseStudy}
+                        className="rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20"
+                      >
+                        View Case study
+                      </a>
+
+                      <a
+                        href={project3Repo}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Open Project 3 GitHub repository"
+                        className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/10 text-white/85 ring-1 ring-white/15 backdrop-blur-md transition hover:bg-white/20 hover:scale-105"
+                      >
+                        <FaGithub size={20} />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* right image */}
+                  <div className="flex justify-center md:justify-end">
+                    <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                      <img
+                        src={carelinkImg}
+                        alt="E-Commerce project"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="project-glow pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+              </div>
+
+              {/* =================== CARD 04 =================== */}
+              <div className="project-card group relative rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+                <div className="grid items-center gap-10 p-10 md:grid-cols-2">
+                  {/* left image */}
+                  <div className="order-2 flex justify-center md:order-1 md:justify-start">
+                    <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                      <img
+                        src={carelinkImg}
+                        alt="Portfolio UI project"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* right text */}
+                  <div className="order-1 md:order-2">
+                    <h3 className="text-2xl font-semibold text-white/95">
+                      Portfolio Website UI
+                    </h3>
+
+                    <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
+                      A personal portfolio UI design and front-end build with
+                      smooth sections, modern layout, and responsive styling for
+                      all screen sizes.
+                    </p>
+
+                    <div className="mt-8 flex items-center gap-3">
+                      <a
+                        href={project4CaseStudy}
+                        className="rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20"
+                      >
+                        View Case study
+                      </a>
+
+                      <a
+                        href={project4Repo}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Open Project 4 GitHub repository"
+                        className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/10 text-white/85 ring-1 ring-white/15 backdrop-blur-md transition hover:bg-white/20 hover:scale-105"
+                      >
+                        <FaGithub size={20} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="project-glow pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+              </div>
+            </>
+          )}
         </div>
 
-        {/* bottom button */}
-        <div className="mt-20 flex justify-center">
-          <button className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#5b21b6] px-14 py-3 text-sm font-medium shadow-[0_20px_60px_rgba(124,58,237,0.35)] transition hover:brightness-110">
-            View More
-          </button>
-        </div>
+        {/* ✅ View More button: show ONLY when showMore is false */}
+        {!showMore && (
+          <div className="mt-20 flex justify-center">
+            <button
+              onClick={() => setShowMore(true)}
+              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#5b21b6] px-14 py-3 text-sm font-medium shadow-[0_20px_60px_rgba(124,58,237,0.35)] transition hover:brightness-110"
+            >
+              View More
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

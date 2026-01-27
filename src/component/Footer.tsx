@@ -1,4 +1,5 @@
 import { Linkedin, Instagram } from "lucide-react";
+import { FaBehance } from "react-icons/fa";
 
 export default function Footer() {
   const links = [
@@ -35,27 +36,39 @@ export default function Footer() {
           </div>
 
           {/* Social icons */}
-          <div className="flex items-center gap-6">
-            <a
-              href="https://www.linkedin.com/in/lakni-weerasinghe-5a4610352/"
-              target="_blank"
-              rel="noreferrer"
-              className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-blue-500
-              "
-            >
-              <Linkedin className="h-5 w-5 text-white/90" />
-            </a>
+          {/* Social icons */}
+<div className="flex items-center gap-6">
+  {/* LinkedIn */}
+  <a
+    href="https://www.linkedin.com/in/lakni-weerasinghe-5a4610352/"
+    target="_blank"
+    rel="noreferrer"
+    className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-blue-500"
+  >
+    <Linkedin className="h-5 w-5 text-white/90" />
+  </a>
 
-            <a
-  href="https://www.instagram.com/_li_woof_/"
-  target="_blank"
-  rel="noreferrer"
-  className="group grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition
-             hover:bg-gradient-to-tr hover:from-[#feda75] hover:via-[#d62976] hover:to-[#4f5bd5] hover:ring-white/20"
->
-  <Instagram className="h-5 w-5 text-white/80 transition group-hover:text-white" />
-</a>
-          </div>
+  {/* Instagram */}
+  <a
+    href="https://www.instagram.com/_li_woof_/"
+    target="_blank"
+    rel="noreferrer"
+    className="group grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition
+      hover:bg-gradient-to-tr hover:from-[#feda75] hover:via-[#d62976] hover:to-[#4f5bd5] hover:ring-white/20"
+  >
+    <Instagram className="h-5 w-5 text-white/80 transition group-hover:text-white" />
+  </a>
+
+  {/* Behance */}
+  <a
+    href="https://www.behance.net/YOUR_BEHANCE_USERNAME"
+    target="_blank"
+    rel="noreferrer"
+    className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-[#1769ff]"
+  >
+    <FaBehance className="h-5 w-5 text-white/90" />
+  </a>
+</div>
 
           {/* Copyright */}
           <p className="text-xs text-white/60">
