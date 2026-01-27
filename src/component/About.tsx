@@ -109,13 +109,13 @@ export default function About() {
             {/* Button */}
             <div className="mt-12">
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
+                href="/CV.pdf"
+                download
                 className="inline-flex items-center justify-center rounded-full bg-white/10 px-10 py-4 text-[16px] font-medium text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98]"
               >
-                Check Resume
+                Download Resume
               </a>
+
             </div>
           </div>
         </div>

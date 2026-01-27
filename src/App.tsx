@@ -6,6 +6,8 @@ import Skills from "./component/Skills";
 import Projects from "./component/Projects";
 import Education from "./component/Education";
 import Contact from "./component/Contact";
+import Footer from "./component/Footer";
+
 
 
 // import SplashCursor from "./components/SplashCursor";
@@ -42,6 +44,7 @@ export default function App() {
           <Contact />
 
         </main>
+        <Footer />
       </div>
     </div>
   );
