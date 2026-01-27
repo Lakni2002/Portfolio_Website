@@ -72,7 +72,7 @@ export default function About() {
 
               {/* Small thin arrow (animated) */}
               <svg
-                className="pointer-events-none absolute -left-[150px] top-[6px] h-[60px] w-[140px]"
+                className="pointer-events-none absolute -left-[150px] top-[6px] h-[60px] w-[140px] hidden md:block"
                 viewBox="0 0 140 60"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,6 @@ export default function About() {
 
             {/* ✅ BIG title (keep your same) */}
             <h1 className="min-h-[120px] text-balance text-[44px] font-semibold leading-[1.12] tracking-wide md:min-h-[150px] md:text-[56px]">
-
               I am a{" "}
               <span className="text-[#a855f7]">
                 {currentText}
@@ -115,7 +114,6 @@ export default function About() {
               >
                 Download Resume
               </a>
-
             </div>
           </div>
         </div>
