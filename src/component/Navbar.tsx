@@ -82,7 +82,7 @@ export default function Navbar() {
             }}
             className="flex items-center gap-3"
           >
-            <img src={logo} alt="Logo" className="h-20 w-20 object-contain" />
+            <img src={logo} alt="Logo" className="h-24 w-24 object-contain" />
           </a>
 
           {/* Desktop Menu */}

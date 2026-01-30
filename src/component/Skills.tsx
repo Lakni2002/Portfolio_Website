@@ -1,20 +1,37 @@
+import type { ReactNode } from "react";
 import logo from "../assets/images/logo.png";
 import Orb from "./Orb";
 
-// your top icons
-import figma from "../assets/images/skills/figma.png";
-import react from "../assets/images/skills/react.png";
-import csharp from "../assets/images/skills/csharp.png";
-import node from "../assets/images/skills/node.png";
-import php from "../assets/images/skills/php.png";
-import next from "../assets/images/skills/next.png";
-import html from "../assets/images/skills/html.png";
-import ai from "../assets/images/skills/ai.png";
-import js from "../assets/images/skills/js.png";
-import css from "../assets/images/skills/css.png";
+// ✅ Icons
+import {
+  FaFigma,
+  FaReact,
+  FaNodeJs,
+  FaPhp,
+  FaHtml5,
+  FaCss3Alt,
+} from "react-icons/fa";
+import { SiNextdotjs, SiJavascript } from "react-icons/si";
 
-const topIcons = [figma, react, csharp, node, php, next, html, ai, js, css];
+type Skill = {
+  icon: ReactNode;
+  label: string;
+  colorClass: string;
+};
 
+const topSkills: Skill[] = [
+  { icon: <FaFigma />, label: "Figma", colorClass: "text-pink-400" },
+  { icon: <FaReact />, label: "React", colorClass: "text-cyan-400" },
+  { icon: <FaNodeJs />, label: "Node.js", colorClass: "text-green-500" },
+  { icon: <FaPhp />, label: "PHP", colorClass: "text-indigo-400" },
+
+  { icon: <FaHtml5 />, label: "HTML", colorClass: "text-orange-500" },
+  { icon: <SiJavascript />, label: "JavaScript", colorClass: "text-yellow-300" },
+  { icon: <FaCss3Alt />, label: "CSS", colorClass: "text-blue-400" },
+
+  // ✅ Next.js LAST → bottom row
+  { icon: <SiNextdotjs />, label: "Next.js", colorClass: "text-white" },
+];
 export default function Skills() {
   return (
     <section
@@ -35,39 +52,59 @@ export default function Skills() {
         <div className="relative mx-auto mt-14 h-[560px] w-full max-w-[1100px]">
           {/* ===== TOP ICONS ===== */}
           <div className="absolute left-1/2 top-[30px] -translate-x-1/2">
-            <div className="grid grid-cols-5 gap-5 place-items-center md:gap-6">
-              {topIcons.map((src, i) => (
+            {/* ✅ responsive columns so it looks good on mobile */}
+            <div className="grid grid-cols-4 sm:grid-cols-4 place-items-center gap-5 md:gap-6">
+              {topSkills.map((s, i) => (
                 <div
                   key={i}
-                  className="grid h-[46px] w-[46px] place-items-center rounded-full bg-white/10 ring-1 ring-white/10 backdrop-blur-md transition hover:scale-110"
+                  title={s.label}
+                  className={[
+                    "group grid place-items-center rounded-full",
+                    // ✅ responsive circle size
+                    "h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14",
+                    "bg-white/10 ring-1 ring-white/10 backdrop-blur-md",
+                    "transition-all duration-300",
+                    "hover:scale-110 hover:bg-white/12",
+                    "hover:shadow-[0_0_20px_rgba(168,85,247,0.35)]",
+                  ].join(" ")}
                 >
-                  <img src={src} alt="skill" className="h-6 w-6" />
+                  <span
+                    className={[
+                      // ✅ responsive icon size
+                      "text-lg sm:text-xl md:text-2xl",
+                      s.colorClass,
+                      "transition",
+                      "group-hover:drop-shadow-[0_0_14px_currentColor]",
+                    ].join(" ")}
+                  >
+                    {s.icon}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
-         {/* ===== ORB CENTER AREA (ONLY INSIDE THIS BOX) ===== */}
-<div className="absolute left-1/2 top-[65%] -translate-x-1/2 -translate-y-1/2">
-  {/* THIS BOX LIMITS ORB */}
-  <div className="relative h-[320px] w-[320px] overflow-hidden rounded-full">
-    {/* Orb background */}
-    <Orb
-      hoverIntensity={1.5}
-      rotateOnHover={true}
-      hue={260}
-      forceHoverState={false}
-      backgroundColor="transparent"
-    />
+          {/* ===== ORB CENTER AREA (ONLY INSIDE THIS BOX) ===== */}
+          <div className="absolute left-1/2 top-[65%] -translate-x-1/2 -translate-y-1/2">
+            {/* THIS BOX LIMITS ORB */}
+            <div className="relative h-[320px] w-[320px] overflow-hidden rounded-full">
+              {/* Orb background */}
+              <Orb
+                hoverIntensity={1.5}
+                rotateOnHover={true}
+                hue={260}
+                forceHoverState={false}
+                backgroundColor="transparent"
+              />
 
-    {/* Your logo on top */}
-    <div className="absolute inset-0 grid place-items-center">
-      <div className="grid h-[120px] w-[120px] place-items-center rounded-full bg-black/20 backdrop-blur-md ring-2 ring-purple-500/70 shadow-[0_0_80px_rgba(168,85,247,0.35)]">
-        <img src={logo} alt="Logo" className="h-[70px] w-[70px]" />
-      </div>
-    </div>
-  </div>
-</div>
+              {/* Your logo on top */}
+              <div className="absolute inset-0 grid place-items-center">
+                <div className="grid h-[120px] w-[120px] place-items-center rounded-full bg-black/20 backdrop-blur-md ring-2 ring-purple-500/70 shadow-[0_0_80px_rgba(168,85,247,0.35)]">
+                  <img src={logo} alt="Logo" className="h-[70px] w-[70px]" />
+                </div>
+              </div>
+            </div>
+          </div>
           {/* ===== END ORB CENTER AREA ===== */}
         </div>
       </div>

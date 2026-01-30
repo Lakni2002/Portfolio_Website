@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Linkedin } from "lucide-react";
+import { Mail, Github, MapPin, Linkedin } from "lucide-react";
 import MagicBentoCard from "./MagicBentoCard";
 import emailjs from "@emailjs/browser";
 
@@ -27,7 +27,7 @@ export default function Contact() {
 
     // ✅ block submit if email is invalid
     const emailInput = formRef.current.querySelector(
-      'input[name="email"]'
+      'input[name="email"]',
     ) as HTMLInputElement | null;
 
     if (emailInput && !emailInput.checkValidity()) {
@@ -81,11 +81,14 @@ export default function Contact() {
               href="mailto:lakniweera20@gmail.com"
             />
             <ContactPill
-              icon={<Phone className="h-5 w-5" />}
-              text="075-2129339"
-              href="tel:+94752129339"
+              icon={<Github className="h-5 w-5" />}
+              text="lakni-weerasinghe"
+              href="https://github.com/Lakni2002"
             />
-            <ContactPill icon={<MapPin className="h-5 w-5" />} text="Sri-Lanka" />
+            <ContactPill
+              icon={<MapPin className="h-5 w-5" />}
+              text="Colombo,Sri-Lanka"
+            />
             <ContactPill
               icon={<Linkedin className="h-5 w-5" />}
               text="Lakni-Weerasinghe"
@@ -110,7 +113,10 @@ export default function Contact() {
                   // ✅ NEW: remove error when user starts fixing it
                   onInput={(e) => {
                     const v = (e.currentTarget as HTMLInputElement).value;
-                    if (v && (e.currentTarget as HTMLInputElement).checkValidity()) {
+                    if (
+                      v &&
+                      (e.currentTarget as HTMLInputElement).checkValidity()
+                    ) {
                       setEmailError(null);
                     }
                   }}
@@ -118,15 +124,30 @@ export default function Contact() {
               </Field>
 
               <Field label="Name">
-                <input type="text" name="name" required className={inputClass} />
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className={inputClass}
+                />
               </Field>
 
               <Field label="Subject">
-                <input type="text" name="subject" required className={inputClass} />
+                <input
+                  type="text"
+                  name="subject"
+                  required
+                  className={inputClass}
+                />
               </Field>
 
               <Field label="Message">
-                <textarea rows={4} name="message" required className={textareaClass} />
+                <textarea
+                  rows={4}
+                  name="message"
+                  required
+                  className={textareaClass}
+                />
               </Field>
 
               <button
@@ -138,7 +159,9 @@ export default function Contact() {
               </button>
 
               {/* ✅ NEW: show email error below the card like other messages */}
-              {emailError && <p className="pt-2 text-sm text-white/80">{emailError}</p>}
+              {emailError && (
+                <p className="pt-2 text-sm text-white/80">{emailError}</p>
+              )}
 
               {/* existing status message (success / failed) */}
               {status && <p className="pt-2 text-sm text-white/80">{status}</p>}
