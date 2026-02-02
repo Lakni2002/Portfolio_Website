@@ -3,6 +3,7 @@ import { FaGithub } from "react-icons/fa";
 
 import carelinkImg from "../assets/images/projects/carelink.png";
 import pawconnectImg from "../assets/images/projects/pawconnect.png";
+import bookshopImg from "../assets/images/projects/bookshop.png";
 
 // ✅ Add 2 more images (MAKE SURE these files exist)
 // import project3Img from "../assets/images/projects/project3.png";
@@ -12,15 +13,15 @@ export default function Projects() {
   const [showMore, setShowMore] = useState(false);
 
   // ✅ Update these links to your real links
-  const carelinkRepo = "https://github.com/your-username/carelink";
+  
   const pawconnectRepo = "https://github.com/Lakni2002/PawConnect-Website";
-  const project3Repo = "https://github.com/your-username/project-3";
+  const project3Repo = "https://github.com/Lakni2002/book-shop-website";
   const project4Repo = "https://github.com/your-username/project-4";
 
   // (Optional) If you have case study pages/links, put them here
-  const carelinkCaseStudy = "#";
-  const pawconnectCaseStudy = "#";
-  const project3CaseStudy = "#";
+  const carelinkCaseStudy = "https://www.behance.net/gallery/242921189/CareLink-Telemedicine-App-UX-Case-Study";
+  const pawconnectCaseStudy = "https://www.behance.net/gallery/243304167/PawConnect-Pet-Adoption-Rescue-UXUI-Case-Study";
+  
   const project4CaseStudy = "#";
 
   return (
@@ -65,15 +66,7 @@ export default function Projects() {
                     View Case study
                   </a>
 
-                  <a
-                    href={carelinkRepo}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Open CareLink GitHub repository"
-                    className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/10 text-white/85 ring-1 ring-white/15 backdrop-blur-md transition hover:bg-white/20 hover:scale-105"
-                  >
-                    <FaGithub size={20} />
-                  </a>
+                  
                 </div>
               </div>
 
@@ -154,22 +147,20 @@ export default function Projects() {
                   {/* left text */}
                   <div>
                     <h3 className="text-2xl font-semibold text-white/95">
-                      E-Commerce Shop Website
+                      Book Shop Management System
                     </h3>
 
                     <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
-                      A modern responsive shopping website with product
-                      categories, product details, cart UI, and a clean checkout
-                      flow designed for a smooth user experience.
+                      Developed a dynamic full-stack book shop web application with a 
+                      responsive front-end interface that allows users to browse and 
+                      view book details. Implemented an admin panel to manage books and 
+                      inventory using CRUD operations. Integrated PHP and MySQL to handle 
+                      database-driven content, form validation, and data storage, focusing 
+                      on usability, clean UI, and efficient data management.
                     </p>
 
-                    <div className="mt-8 flex items-center gap-3">
-                      <a
-                        href={project3CaseStudy}
-                        className="rounded-full bg-white/10 px-10 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20"
-                      >
-                        View Case study
-                      </a>
+                    <div className="mt-8 ">
+                      
 
                       <a
                         href={project3Repo}
@@ -187,8 +178,8 @@ export default function Projects() {
                   <div className="flex justify-center md:justify-end">
                     <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
                       <img
-                        src={carelinkImg}
-                        alt="E-Commerce project"
+                        src={bookshopImg}
+                        alt="Book Shop project"
                         className="h-auto w-full object-cover"
                       />
                     </div>
