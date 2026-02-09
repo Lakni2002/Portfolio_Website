@@ -215,3 +215,10 @@
   transform: scale(1.06);
 }
 
+
+
+#about, #skills, #projects, #education, #contact {
+  will-change: transform, opacity;
+}
+
+
