@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import { Renderer, Camera, Geometry, Program, Mesh } from "ogl";
+import React, { useEffect, useRef } from 'react';
+import { Renderer, Camera, Geometry, Program, Mesh } from 'ogl';
+
+//import './Particles.css';
 
 interface ParticlesProps {
   particleCount?: number;
@@ -17,15 +19,15 @@ interface ParticlesProps {
   className?: string;
 }
 
-const defaultColors: string[] = ["#ffffff", "#ffffff", "#ffffff"];
+const defaultColors: string[] = ['#ffffff', '#ffffff', '#ffffff'];
 
 const hexToRgb = (hex: string): [number, number, number] => {
-  hex = hex.replace(/^#/, "");
+  hex = hex.replace(/^#/, '');
   if (hex.length === 3) {
     hex = hex
-      .split("")
-      .map((c) => c + c)
-      .join("");
+      .split('')
+      .map(c => c + c)
+      .join('');
   }
   const int = parseInt(hex, 16);
   const r = ((int >> 16) & 255) / 255;
@@ -38,7 +40,7 @@ const vertex = /* glsl */ `
   attribute vec3 position;
   attribute vec4 random;
   attribute vec3 color;
-
+  
   uniform mat4 modelMatrix;
   uniform mat4 viewMatrix;
   uniform mat4 projectionMatrix;
@@ -46,54 +48,50 @@ const vertex = /* glsl */ `
   uniform float uSpread;
   uniform float uBaseSize;
   uniform float uSizeRandomness;
-
+  
   varying vec4 vRandom;
   varying vec3 vColor;
-
+  
   void main() {
     vRandom = random;
     vColor = color;
-
+    
     vec3 pos = position * uSpread;
     pos.z *= 10.0;
-
+    
     vec4 mPos = modelMatrix * vec4(pos, 1.0);
     float t = uTime;
-
     mPos.x += sin(t * random.z + 6.28 * random.w) * mix(0.1, 1.5, random.x);
     mPos.y += sin(t * random.y + 6.28 * random.x) * mix(0.1, 1.5, random.w);
     mPos.z += sin(t * random.w + 6.28 * random.y) * mix(0.1, 1.5, random.z);
-
+    
     vec4 mvPos = viewMatrix * mPos;
-
-    // NOTE: Point size can get extremely large when particles are close to the camera.
-    // Clamp it to avoid GPU spikes (especially on mobile).
-    float ps;
     if (uSizeRandomness == 0.0) {
-      ps = uBaseSize;
+      gl_PointSize = uBaseSize;
     } else {
-      ps = (uBaseSize * (1.0 + uSizeRandomness * (random.x - 0.5))) / max(0.0001, length(mvPos.xyz));
+      gl_PointSize = (uBaseSize * (1.0 + uSizeRandomness * (random.x - 0.5))) / length(mvPos.xyz);
     }
-    gl_PointSize = clamp(ps, 2.0, 60.0);
-
+    
     gl_Position = projectionMatrix * mvPos;
   }
 `;
 
 const fragment = /* glsl */ `
   precision highp float;
-
+  
   uniform float uTime;
   uniform float uAlphaParticles;
   varying vec4 vRandom;
   varying vec3 vColor;
-
+  
   void main() {
     vec2 uv = gl_PointCoord.xy;
     float d = length(uv - vec2(0.5));
-
+    
     if(uAlphaParticles < 0.5) {
-      if(d > 0.5) discard;
+      if(d > 0.5) {
+        discard;
+      }
       gl_FragColor = vec4(vColor + 0.2 * sin(uv.yxx + uTime + vRandom.y * 6.28), 1.0);
     } else {
       float circle = smoothstep(0.5, 0.4, d) * 0.8;
@@ -115,7 +113,7 @@ const Particles: React.FC<ParticlesProps> = ({
   cameraDistance = 20,
   disableRotation = false,
   pixelRatio = 1,
-  className,
+  className
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -124,25 +122,11 @@ const Particles: React.FC<ParticlesProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // ✅ Mobile-friendly caps (won’t affect your other components)
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-    // If you pass a high DPR, this caps it to avoid heavy rendering on phones.
-    const effectiveDpr = Math.max(
-      1,
-      Math.min(pixelRatio, isMobile ? 1.25 : 1.75)
-    );
-
-    // Keep your chosen values, but prevent mobile from going too heavy.
-    const effectiveCount = isMobile ? Math.min(particleCount, 120) : particleCount;
-    const effectiveBaseSize = isMobile ? Math.min(particleBaseSize, 50) : particleBaseSize;
-
     const renderer = new Renderer({
-      dpr: effectiveDpr,
+      dpr: pixelRatio,
       depth: false,
-      alpha: true,
+      alpha: true
     });
-
     const gl = renderer.gl;
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
@@ -156,8 +140,7 @@ const Particles: React.FC<ParticlesProps> = ({
       renderer.setSize(width, height);
       camera.perspective({ aspect: gl.canvas.width / gl.canvas.height });
     };
-
-    window.addEventListener("resize", resize, false);
+    window.addEventListener('resize', resize, false);
     resize();
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -168,16 +151,16 @@ const Particles: React.FC<ParticlesProps> = ({
     };
 
     if (moveParticlesOnHover) {
-      container.addEventListener("mousemove", handleMouseMove);
+      container.addEventListener('mousemove', handleMouseMove);
     }
 
-    const positions = new Float32Array(effectiveCount * 3);
-    const randoms = new Float32Array(effectiveCount * 4);
-    const colors = new Float32Array(effectiveCount * 3);
-    const palette =
-      particleColors && particleColors.length > 0 ? particleColors : defaultColors;
+    const count = particleCount;
+    const positions = new Float32Array(count * 3);
+    const randoms = new Float32Array(count * 4);
+    const colors = new Float32Array(count * 3);
+    const palette = particleColors && particleColors.length > 0 ? particleColors : defaultColors;
 
-    for (let i = 0; i < effectiveCount; i++) {
+    for (let i = 0; i < count; i++) {
       let x: number, y: number, z: number, len: number;
       do {
         x = Math.random() * 2 - 1;
@@ -185,11 +168,9 @@ const Particles: React.FC<ParticlesProps> = ({
         z = Math.random() * 2 - 1;
         len = x * x + y * y + z * z;
       } while (len > 1 || len === 0);
-
       const r = Math.cbrt(Math.random());
       positions.set([x * r, y * r, z * r], i * 3);
       randoms.set([Math.random(), Math.random(), Math.random(), Math.random()], i * 4);
-
       const col = hexToRgb(palette[Math.floor(Math.random() * palette.length)]);
       colors.set(col, i * 3);
     }
@@ -197,7 +178,7 @@ const Particles: React.FC<ParticlesProps> = ({
     const geometry = new Geometry(gl, {
       position: { size: 3, data: positions },
       random: { size: 4, data: randoms },
-      color: { size: 3, data: colors },
+      color: { size: 3, data: colors }
     });
 
     const program = new Program(gl, {
@@ -206,32 +187,22 @@ const Particles: React.FC<ParticlesProps> = ({
       uniforms: {
         uTime: { value: 0 },
         uSpread: { value: particleSpread },
-        uBaseSize: { value: effectiveBaseSize * effectiveDpr },
+        uBaseSize: { value: particleBaseSize * pixelRatio },
         uSizeRandomness: { value: sizeRandomness },
-        uAlphaParticles: { value: alphaParticles ? 1 : 0 },
+        uAlphaParticles: { value: alphaParticles ? 1 : 0 }
       },
       transparent: true,
-      depthTest: false,
+      depthTest: false
     });
 
     const particles = new Mesh(gl, { mode: gl.POINTS, geometry, program });
 
-    let animationFrameId = 0;
+    let animationFrameId: number;
     let lastTime = performance.now();
     let elapsed = 0;
 
-    // ✅ Pause rendering when tab is hidden (prevents weird slowdowns / throttling jumps)
-    let isPaused = false;
-    const onVisibility = () => {
-      isPaused = document.hidden;
-      if (!isPaused) lastTime = performance.now();
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-
     const update = (t: number) => {
       animationFrameId = requestAnimationFrame(update);
-      if (isPaused) return;
-
       const delta = t - lastTime;
       lastTime = t;
       elapsed += delta * speed;
@@ -258,24 +229,20 @@ const Particles: React.FC<ParticlesProps> = ({
     animationFrameId = requestAnimationFrame(update);
 
     return () => {
-      document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("resize", resize);
-
+      window.removeEventListener('resize', resize);
       if (moveParticlesOnHover) {
-        container.removeEventListener("mousemove", handleMouseMove);
+        container.removeEventListener('mousemove', handleMouseMove);
       }
-
       cancelAnimationFrame(animationFrameId);
-
       if (container.contains(gl.canvas)) {
         container.removeChild(gl.canvas);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     particleCount,
     particleSpread,
     speed,
-    particleColors,
     moveParticlesOnHover,
     particleHoverFactor,
     alphaParticles,
@@ -283,22 +250,22 @@ const Particles: React.FC<ParticlesProps> = ({
     sizeRandomness,
     cameraDistance,
     disableRotation,
-    pixelRatio,
+    pixelRatio
   ]);
+return (
+  <div
+    ref={containerRef}
+    className={className}
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+    }}
+  />
+);
 
-  return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-      }}
-    />
-  );
+
 };
 
 export default Particles;
-
