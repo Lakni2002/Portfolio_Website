@@ -4,6 +4,8 @@ import { FaGithub } from "react-icons/fa";
 import carelinkImg from "../assets/images/projects/carelink.png";
 import pawconnectImg from "../assets/images/projects/pawconnect.png";
 import bookshopImg from "../assets/images/projects/bookshop.png";
+import safepathImg from "../assets/images/projects/safepath.png";
+
 
 // ✅ Add 2 more images (MAKE SURE these files exist)
 // import project3Img from "../assets/images/projects/project3.png";
@@ -16,7 +18,7 @@ export default function Projects() {
   
   const pawconnectRepo = "https://github.com/Lakni2002/PawConnect-Website";
   const project3Repo = "https://github.com/Lakni2002/book-shop-website";
-  const project4Repo = "https://github.com/your-username/project-4";
+  const project4Repo = "https://github.com/Lakni2002/safepath";
 
   // (Optional) If you have case study pages/links, put them here
   const carelinkCaseStudy = "https://www.behance.net/gallery/242921189/CareLink-Telemedicine-App-UX-Case-Study";
@@ -196,7 +198,7 @@ export default function Projects() {
                   <div className="order-2 flex justify-center md:order-1 md:justify-start">
                     <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
                       <img
-                        src={carelinkImg}
+                        src={safepathImg}
                         alt="Portfolio UI project"
                         className="h-auto w-full object-cover"
                       />
@@ -206,13 +208,14 @@ export default function Projects() {
                   {/* right text */}
                   <div className="order-1 md:order-2">
                     <h3 className="text-2xl font-semibold text-white/95">
-                      Portfolio Website UI
+                      SafePath–Public Safety Emergency Website
                     </h3>
 
                     <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
-                      A personal portfolio UI design and front-end build with
-                      smooth sections, modern layout, and responsive styling for
-                      all screen sizes.
+                      SafePath is a concept emergency assistance website designed to support 
+                      users during urgent situations. The project emphasizes intuitive navigation, 
+                      minimal cognitive load, and clear visual hierarchy to ensure fast access to 
+                      critical information and emergency contacts across all devices.
                     </p>
 
                     <div className="mt-8 flex items-center gap-3">
