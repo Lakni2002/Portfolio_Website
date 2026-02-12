@@ -18,7 +18,7 @@ export default function Projects() {
   
   const pawconnectRepo = "https://github.com/Lakni2002/PawConnect-Website";
   const project3Repo = "https://github.com/Lakni2002/book-shop-website";
-  const project4Repo = "https://github.com/Lakni2002/safepath";
+  const project4Repo = "https://github.com/Lakni2002/SafePath-website";
 
   // (Optional) If you have case study pages/links, put them here
   const carelinkCaseStudy = "https://www.behance.net/gallery/242921189/CareLink-Telemedicine-App-UX-Case-Study";
