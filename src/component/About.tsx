@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
 import me from "../assets/images/me.png";
 
 export default function About() {
@@ -44,7 +45,7 @@ export default function About() {
       </div>
 
       {/* ✅ FIX: reduce top/bottom space */}
-      <div className="mx-auto max-w-6xl px-6 pt-[80px] pb-[70px] md:pt-[96px] md:pb-[90px]">
+      <div className="mx-auto max-w-6xl px-6 pt-[40px] pb-[70px] md:pt-[56px] md:pb-[90px]">
         <div className="grid items-center gap-12 md:grid-cols-2">
           {/* LEFT: Character (✅ slightly bigger) */}
           <div className="relative mx-auto w-full max-w-[420px] md:max-w-[500px]">
@@ -98,9 +99,10 @@ export default function About() {
               <a
                 href="/Lakni Weerasinghe CV.pdf"
                 download
-                className="inline-flex items-center justify-center rounded-full bg-white/10 px-10 py-4 text-[16px] font-medium text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-10 py-4 text-[16px] font-medium text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98]"
               >
-                Download Resume
+                <Download className="h-4 w-4 animate-bounce" aria-hidden="true" />
+                <span>Download Resume</span>
               </a>
             </div>
           </div>

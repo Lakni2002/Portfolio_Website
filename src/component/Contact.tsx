@@ -3,35 +3,135 @@ import { Mail, Github, MapPin, Linkedin } from "lucide-react";
 import MagicBentoCard from "./MagicBentoCard";
 import emailjs from "@emailjs/browser";
 
+type FormErrors = {
+  email?: string;
+  name?: string;
+  subject?: string;
+  message?: string;
+};
+
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [isSent, setIsSent] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  // ✅ NEW: email validation message
-  const [emailError, setEmailError] = useState<string | null>(null);
-
-  // ✅ PUT YOUR EMAILJS VALUES HERE
+  // PUT YOUR EMAILJS VALUES HERE
   const SERVICE_ID = "service_v0sv67i";
   const TEMPLATE_ID = "template_63v7hnm";
   const PUBLIC_KEY = "Vg6yUJmrQiyj95K2-";
 
+  const validateField = (name: string, value: string): string => {
+    const trimmedValue = value.trim();
+
+    if (name === "email") {
+      if (!trimmedValue) {
+        return "Email is required.";
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(trimmedValue)) {
+        return "Please enter a valid email address.";
+      }
+    }
+
+    if (name === "name") {
+      if (!trimmedValue) {
+        return "Name is required.";
+      }
+
+      if (trimmedValue.length < 2) {
+        return "Name must be at least 2 characters.";
+      }
+
+      const nameRegex = /^[A-Za-z\s.'-]+$/;
+
+      if (!nameRegex.test(trimmedValue)) {
+        return "Name can only contain letters and basic symbols.";
+      }
+    }
+
+    if (name === "subject") {
+      if (!trimmedValue) {
+        return "Subject is required.";
+      }
+
+      if (trimmedValue.length < 3) {
+        return "Subject must be at least 3 characters.";
+      }
+    }
+
+    if (name === "message") {
+      if (!trimmedValue) {
+        return "Message is required.";
+      }
+
+
+    }
+
+    return "";
+  };
+
+  const validateForm = () => {
+    if (!formRef.current) return false;
+
+    const formData = new FormData(formRef.current);
+
+    const email = String(formData.get("email") || "");
+    const name = String(formData.get("name") || "");
+    const subject = String(formData.get("subject") || "");
+    const message = String(formData.get("message") || "");
+
+    const newErrors: FormErrors = {
+      email: validateField("email", email),
+      name: validateField("name", name),
+      subject: validateField("subject", subject),
+      message: validateField("message", message),
+    };
+
+    Object.keys(newErrors).forEach((key) => {
+      const errorKey = key as keyof FormErrors;
+
+      if (!newErrors[errorKey]) {
+        delete newErrors[errorKey];
+      }
+    });
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+
+    setIsSent(false);
+    setStatus(null);
+
+    setErrors((prevErrors) => {
+      const fieldError = validateField(name, value);
+
+      return {
+        ...prevErrors,
+        [name]: fieldError || undefined,
+      };
+    });
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(null);
-
-    // ✅ clear email error before submit
-    setEmailError(null);
+    setIsSent(false);
 
     if (!formRef.current) return;
 
-    // ✅ block submit if email is invalid
-    const emailInput = formRef.current.querySelector(
-      'input[name="email"]',
-    ) as HTMLInputElement | null;
+    const isValid = validateForm();
 
-    if (emailInput && !emailInput.checkValidity()) {
-      setEmailError("❌ Please enter a valid email address.");
+    if (!isValid) {
       return;
     }
 
@@ -42,13 +142,13 @@ export default function Contact() {
         publicKey: PUBLIC_KEY,
       });
 
-      setStatus("✅ Message sent successfully!");
+      setIsSent(true);
+      setStatus("Message sent successfully!");
+      setErrors({});
       formRef.current.reset();
-
-      // ✅ clear email error after success
-      setEmailError(null);
     } catch (err) {
-      setStatus("❌ Failed to send. Please try again.");
+      setStatus("Failed to send. Please try again.");
+      setIsSent(false);
       console.error(err);
     } finally {
       setLoading(false);
@@ -58,7 +158,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-transparent py-24 text-white"
+      className="relative scroll-mt-28 overflow-hidden bg-transparent py-5 text-white md:scroll-mt-32"
     >
       {/* soft glow background */}
       <div className="pointer-events-none absolute inset-0">
@@ -74,7 +174,7 @@ export default function Contact() {
 
         <div className="mt-16 grid items-start gap-10 md:grid-cols-2">
           {/* LEFT: contact pills */}
-          <div className="space-y-10">
+          <div className="space-y-4">
             <ContactPill
               icon={<Mail className="h-6 w-5" />}
               text="lakniweera20@gmail.com"
@@ -99,72 +199,115 @@ export default function Contact() {
           {/* RIGHT: form */}
           <MagicBentoCard className="bg-white/5 p-8 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
             <form ref={formRef} className="space-y-6" onSubmit={onSubmit}>
-              <Field label="E-mail">
+              <Field label="E-mail" error={errors.email}>
                 <input
                   type="email"
                   name="email"
                   required
-                  className={inputClass}
-                  // ✅ NEW: show custom message under card (not browser popup)
-                  onInvalid={(e) => {
-                    e.preventDefault();
-                    setEmailError("❌ Please enter a valid email address.");
-                  }}
-                  // ✅ NEW: remove error when user starts fixing it
-                  onInput={(e) => {
-                    const v = (e.currentTarget as HTMLInputElement).value;
-                    if (
-                      v &&
-                      (e.currentTarget as HTMLInputElement).checkValidity()
-                    ) {
-                      setEmailError(null);
-                    }
+                  className={`${inputClass} ${
+                    errors.email ? errorInputClass : ""
+                  }`}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const fieldError = validateField(
+                      e.currentTarget.name,
+                      e.currentTarget.value,
+                    );
+
+                    setErrors((prevErrors) => ({
+                      ...prevErrors,
+                      email: fieldError || undefined,
+                    }));
                   }}
                 />
               </Field>
 
-              <Field label="Name">
+              <Field label="Name" error={errors.name}>
                 <input
                   type="text"
                   name="name"
                   required
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.name ? errorInputClass : ""
+                  }`}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const fieldError = validateField(
+                      e.currentTarget.name,
+                      e.currentTarget.value,
+                    );
+
+                    setErrors((prevErrors) => ({
+                      ...prevErrors,
+                      name: fieldError || undefined,
+                    }));
+                  }}
                 />
               </Field>
 
-              <Field label="Subject">
+              <Field label="Subject" error={errors.subject}>
                 <input
                   type="text"
                   name="subject"
                   required
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.subject ? errorInputClass : ""
+                  }`}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const fieldError = validateField(
+                      e.currentTarget.name,
+                      e.currentTarget.value,
+                    );
+
+                    setErrors((prevErrors) => ({
+                      ...prevErrors,
+                      subject: fieldError || undefined,
+                    }));
+                  }}
                 />
               </Field>
 
-              <Field label="Message">
+              <Field label="Message" error={errors.message}>
                 <textarea
                   rows={4}
                   name="message"
                   required
-                  className={textareaClass}
+                  className={`${textareaClass} ${
+                    errors.message ? errorInputClass : ""
+                  }`}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const fieldError = validateField(
+                      e.currentTarget.name,
+                      e.currentTarget.value,
+                    );
+
+                    setErrors((prevErrors) => ({
+                      ...prevErrors,
+                      message: fieldError || undefined,
+                    }));
+                  }}
                 />
               </Field>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-2 w-full rounded-full bg-gradient-to-r from-[#5b21b6] via-[#7c3aed] to-[#6d28d9] py-3 font-medium shadow-[0_16px_50px_rgba(124,58,237,0.35)] transition hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
-              >
-                {loading ? "Sending..." : "Send"}
-              </button>
-
-              {/* ✅ NEW: show email error below the card like other messages */}
-              {emailError && (
-                <p className="pt-2 text-sm text-white/80">{emailError}</p>
+              {isSent ? (
+                <div className="mt-2 w-full rounded-full bg-white/10 py-3 text-center text-sm font-medium text-white/90 ring-1 ring-green-400/40">
+                  {status}
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="mt-2 w-full rounded-full bg-gradient-to-r from-[#5b21b6] via-[#7c3aed] to-[#6d28d9] py-3 font-medium shadow-[0_16px_50px_rgba(124,58,237,0.35)] transition hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
+                >
+                  {loading ? "Sending..." : "Send"}
+                </button>
               )}
 
-              {/* existing status message (success / failed) */}
-              {status && <p className="pt-2 text-sm text-white/80">{status}</p>}
+              {status && !isSent && (
+                <p className="pt-2 text-sm text-white/80">{status}</p>
+              )}
             </form>
           </MagicBentoCard>
         </div>
@@ -183,7 +326,7 @@ function ContactPill({
   href?: string;
 }) {
   const pill = (
-    <div className="flex w-full max-w-[320px] items-center gap-3 rounded-2xl bg-white/7 px-5 py-4 ring-1 ring-white/10 backdrop-blur-md shadow-[0_18px_70px_rgba(0,0,0,0.35)] transition hover:bg-white/10">
+    <div className="flex w-full max-w-[320px] items-center gap-4 rounded-2xl bg-white/7 px-5 py-4 ring-1 ring-white/10 backdrop-blur-md shadow-[0_18px_70px_rgba(0,0,0,0.35)] transition hover:bg-white/10">
       <span className="text-white/85">{icon}</span>
       <span className="text-sm text-white/90">{text}</span>
     </div>
@@ -193,6 +336,7 @@ function ContactPill({
     return (
       <a
         href={href}
+        className="block"
         target={href.startsWith("http") ? "_blank" : undefined}
         rel="noreferrer"
       >
@@ -200,20 +344,24 @@ function ContactPill({
       </a>
     );
   }
+
   return pill;
 }
 
 function Field({
   label,
   children,
+  error,
 }: {
   label: string;
   children: React.ReactNode;
+  error?: string;
 }) {
   return (
     <label className="block">
       <div className="mb-2 text-sm text-white/85">{label}</div>
       {children}
+      {error && <p className="mt-2 text-xs text-red-300">{error}</p>}
     </label>
   );
 }
@@ -229,3 +377,5 @@ const textareaClass =
   "px-4 py-3 text-sm text-white/90 placeholder:text-white/40 " +
   "ring-1 ring-white/15 outline-none backdrop-blur-md transition " +
   "focus:ring-2 focus:ring-purple-500/50";
+
+const errorInputClass = "ring-red-400/60 focus:ring-red-400/70";

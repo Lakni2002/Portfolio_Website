@@ -5,7 +5,7 @@ export default function Education() {
   return (
     <section
       id="education"
-      className="relative overflow-hidden bg-transparent py-24 text-white"
+      className="relative scroll-mt-28 overflow-hidden bg-transparent py-5 text-white md:scroll-mt-32" 
     >
       {/* soft background glow */}
       <div className="pointer-events-none absolute inset-0">

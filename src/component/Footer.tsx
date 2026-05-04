@@ -1,5 +1,5 @@
 import { Linkedin, Instagram } from "lucide-react";
-import { FaBehance } from "react-icons/fa";
+import { FaBehance, FaMedium } from "react-icons/fa";
 
 export default function Footer() {
   const links = [
@@ -67,6 +67,16 @@ export default function Footer() {
     className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-[#1769ff]"
   >
     <FaBehance className="h-5 w-5 text-white/90" />
+  </a>
+
+  {/* Medium */}
+  <a
+    href="https://medium.com/"
+    target="_blank"
+    rel="noreferrer"
+    className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-[#00ab6c]"
+  >
+    <FaMedium className="h-5 w-5 text-white/90" />
   </a>
 </div>
 
