@@ -36,29 +36,35 @@ export default function Navbar() {
   };
 
   // Scrollspy
-  useEffect(() => {
-    const sectionIds = NAV_ITEMS.map((i) => i.href.replace("#", ""));
+useEffect(() => {
+  const sectionIds = NAV_ITEMS.map((i) => i.href.replace("#", ""));
 
-    const onScroll = () => {
-      const offset = 120;
-      let current = "#about";
+  const onScroll = () => {
+    const offset = 120;
+    let current = "#about";
 
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (!el) continue;
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
 
-        const top = el.getBoundingClientRect().top;
-        if (top - offset <= 0) current = `#${id}`;
+      const top = el.getBoundingClientRect().top;
+
+      if (top - offset <= 0) {
+        current = `#${id}`;
       }
+    }
 
-      setActive(current);
-    };
+    setActive(current);
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    //  IMPORTANT FIX: update URL on scroll
+    window.history.replaceState(null, "", current);
+  };
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
 
   // Prevent background scroll when menu open (mobile)
   useEffect(() => {

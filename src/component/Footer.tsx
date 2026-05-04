@@ -71,7 +71,7 @@ export default function Footer() {
 
   {/* Medium */}
   <a
-    href="https://medium.com/"
+    href="https://medium.com/@lakniweera20"
     target="_blank"
     rel="noreferrer"
     className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 backdrop-blur-md transition hover:bg-[#00ab6c]"
