@@ -3,7 +3,6 @@ import { Download } from "lucide-react";
 import me from "../assets/images/me.png";
 
 export default function About() {
-  // ✅ Typing text animation
   const texts = ["UI/UX Designer", "Front-end Developer"];
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -38,16 +37,13 @@ export default function About() {
 
   return (
     <section id="about" className="relative overflow-hidden bg-transparent text-white">
-      {/* soft glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-[-240px] h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[#6b21a8]/25 blur-[120px]" />
         <div className="absolute left-[15%] top-[20%] h-[380px] w-[380px] rounded-full bg-[#3b82f6]/10 blur-[120px]" />
       </div>
 
-      {/* ✅ FIX: reduce top/bottom space */}
       <div className="mx-auto max-w-6xl px-6 pt-[40px] pb-[70px] md:pt-[56px] md:pb-[90px]">
         <div className="grid items-center gap-12 md:grid-cols-2">
-          {/* LEFT: Character (✅ slightly bigger) */}
           <div className="relative mx-auto w-full max-w-[420px] md:max-w-[500px]">
             <img
               src={me}
@@ -56,13 +52,13 @@ export default function About() {
             />
           </div>
 
-          {/* RIGHT: Text */}
           <div className="md:pl-4">
-            {/* Hello line + SMALL arrow */}
             <div className="relative mb-6 inline-block">
               <p className="text-[18px] leading-snug text-white/80">
                 Hello! I Am{" "}
-                <span className="font-semibold text-[#a855f7]">Lakni Weerasinghe</span>
+                <span className="font-semibold text-[#a855f7]">
+                  Lakni Weerasinghe
+                </span>
               </p>
 
               <svg
@@ -80,16 +76,17 @@ export default function About() {
               </svg>
             </div>
 
-            {/* ✅ FIX: reduce forced empty height */}
-            <h1 className="min-h-[84px] text-balance text-[44px] font-semibold leading-[1.12] tracking-wide md:min-h-[110px] md:text-[56px]">
-              I am a{" "}
-              <span className="text-[#a855f7]">
-                {currentText}
-                <span className="typing-cursor">|</span>
-              </span>
-            </h1>
+            <div className="h-[155px] md:h-[150px]">
+              <h1 className="text-balance text-[44px] font-semibold leading-[1.12] tracking-wide md:text-[56px]">
+                I am a{" "}
+                <span className="text-[#a855f7]">
+                  {currentText}
+                  <span className="typing-cursor">|</span>
+                </span>
+              </h1>
+            </div>
 
-            <p className="mt-10 max-w-xl text-[18px] leading-[1.9] text-white/80">
+            <p className="mt-6 max-w-xl text-[18px] leading-[1.9] text-white/80">
               I’m a UI/UX Designer &amp; Front-End Developer passionate about creating
               modern, user-friendly digital experiences. I design clean interfaces and
               build responsive websites that are both visually appealing and easy to use.
