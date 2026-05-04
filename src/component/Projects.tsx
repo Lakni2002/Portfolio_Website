@@ -5,6 +5,9 @@ import carelinkImg from "../assets/images/projects/carelink.png";
 import pawconnectImg from "../assets/images/projects/pawconnect.png";
 import bookshopImg from "../assets/images/projects/bookshop.png";
 import safepathImg from "../assets/images/projects/safepath.png";
+import fireworkImg from "../assets/images/projects/firework.png";
+import brewvibeImg from "../assets/images/projects/brewvibe.png";
+import blogImg from "../assets/images/projects/blog.png";
 
 type Category = "frontend" | "caseStudies" | "blogs";
 
@@ -28,7 +31,7 @@ const frontendProjects: WorkItem[] = [
   {
     title: "Pet Adoption Website",
     description:
-      "PawConnect is a pet rescue and adoption platform designed to connect rescued animals with loving homes across Sri Lanka. The website enables users to adopt pets, report stray or injured animals through a live rescue map, volunteer for rescue activities, and support shelters through donations — creating a transparent, community-driven rescue ecosystem.",
+      "PawConnect is a pet rescue and adoption platform designed to connect rescued animals with loving homes across Sri Lanka.",
     image: pawconnectImg,
     imageAlt: "PawConnect project",
     caseStudyLink:
@@ -39,7 +42,7 @@ const frontendProjects: WorkItem[] = [
   {
     title: "Book Shop Management System",
     description:
-      "Developed a dynamic full-stack book shop web application with a responsive front-end interface that allows users to browse and view book details. Implemented an admin panel to manage books and inventory using CRUD operations. Integrated PHP and MySQL to handle database-driven content, form validation, and data storage, focusing on usability, clean UI, and efficient data management.",
+      "Developed a dynamic full-stack book shop web application with a responsive front-end interface, admin panel, CRUD operations, PHP, and MySQL.",
     image: bookshopImg,
     imageAlt: "Book Shop project",
     repoLink: "https://github.com/Lakni2002/book-shop-website",
@@ -48,7 +51,7 @@ const frontendProjects: WorkItem[] = [
   {
     title: "SafePath – Public Safety Emergency Website",
     description:
-      "SafePath is a concept emergency assistance website designed to support users during urgent situations. The project emphasizes intuitive navigation, minimal cognitive load, and clear visual hierarchy to ensure fast access to critical information and emergency contacts across all devices.",
+      "SafePath is an emergency assistance website designed to give users fast access to safety guidance and emergency contacts.",
     image: safepathImg,
     imageAlt: "SafePath project",
     repoLink: "https://github.com/Lakni2002/SafePath-website",
@@ -58,9 +61,29 @@ const frontendProjects: WorkItem[] = [
 
 const caseStudies: WorkItem[] = [
   {
+    title: "Modern Fireworks Website UI/UX Design",
+    description:
+      "A modern dark-themed UI design for a fireworks showcase website, focused on creating an immersive visual experience with clear navigation and engaging product displays",
+    image: fireworkImg,
+    imageAlt: "Fireworks case study",
+    caseStudyLink:
+      "https://www.behance.net/gallery/248545495/Fireworks-Showcase-Website-UIUX",
+    layout: "text-left",
+  },
+  {
+    title: "BrewVibe – Cafe Finder Mobile App UI/UX Design",
+    description:
+      "A mobile app that helps users find cafés by vibe with a simple and user-friendly experience.",
+    image: brewvibeImg,
+    imageAlt: "Brewvibe case study",
+    caseStudyLink:
+      "https://www.behance.net/gallery/248628949/BrewVibe-Caf-Discovery-Mobile-App-UIUX-Case-Study",
+    layout: "image-left",
+  },
+  {
     title: "CareLink Telemedicine App UX Case Study",
     description:
-      "CareLink is a telemedicine mobile app that enables users to consult doctors online, manage appointments, and receive medicine reminders through an AI-powered health assistant, improving access to healthcare in Sri Lanka.",
+      "CareLink is a telemedicine mobile app that enables users to consult doctors online, manage appointments, and receive medicine reminders.",
     image: carelinkImg,
     imageAlt: "CareLink case study",
     caseStudyLink:
@@ -70,7 +93,7 @@ const caseStudies: WorkItem[] = [
   {
     title: "PawConnect Pet Adoption & Rescue UX/UI Case Study",
     description:
-      "A UX/UI case study focused on creating a pet adoption and rescue platform with clear user flows, accessible layouts, rescue reporting, donation support, and a community-driven adoption experience.",
+      "A UX/UI case study focused on creating a pet adoption and rescue platform with clear user flows, rescue reporting, donations, and adoption support.",
     image: pawconnectImg,
     imageAlt: "PawConnect case study",
     caseStudyLink:
@@ -79,7 +102,18 @@ const caseStudies: WorkItem[] = [
   },
 ];
 
-const blogs: WorkItem[] = [];
+const blogs: WorkItem[] = [
+  {
+    title: "Small UI Decisions That Make a Big UX Impact",
+    description:
+      "UI/UX Designer sharing simple design tips and ideas.Focused on creating clean and user-friendly experiences.",
+    image: blogImg,
+    imageAlt: "Blog post",
+    caseStudyLink:
+      "https://medium.com/@lakniweera20/small-ui-decisions-that-make-a-big-ux-impact-9be2aa06a8c7",
+    layout: "image-left",
+  },
+];
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<Category>("frontend");
@@ -93,7 +127,8 @@ export default function Projects() {
         : blogs;
 
   const visibleItems =
-    activeCategory === "frontend" && !showMore
+    (activeCategory === "frontend" || activeCategory === "caseStudies") &&
+    !showMore
       ? activeItems.slice(0, 2)
       : activeItems;
 
@@ -107,7 +142,6 @@ export default function Projects() {
       id="projects"
       className="relative scroll-mt-28 overflow-hidden bg-transparent py-5 text-white md:scroll-mt-32"
     >
-      {/* soft glow background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-[-240px] h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[#6b21a8]/18 blur-[160px]" />
         <div className="absolute right-[-120px] top-[20%] h-[520px] w-[520px] rounded-full bg-[#7c3aed]/12 blur-[170px]" />
@@ -119,7 +153,6 @@ export default function Projects() {
           Projects
         </h2>
 
-        {/* ===== CATEGORY BAR ===== */}
         <div className="mt-10 flex justify-center">
           <div className="flex w-full max-w-[720px] flex-col gap-3 rounded-3xl border border-white/10 bg-white/[0.06] p-2 backdrop-blur-xl sm:flex-row">
             {categories.map((category) => {
@@ -156,7 +189,6 @@ export default function Projects() {
                   className="project-card group relative rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.35)]"
                 >
                   <div className="grid items-center gap-10 p-6 sm:p-8 md:grid-cols-2 md:p-10">
-                    {/* image left layout */}
                     {isImageLeft && (
                       <div className="order-2 flex justify-center md:order-1 md:justify-start">
                         <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
@@ -169,12 +201,7 @@ export default function Projects() {
                       </div>
                     )}
 
-                    {/* text content */}
-                    <div
-                      className={
-                        isImageLeft ? "order-1 md:order-2" : "order-1"
-                      }
-                    >
+                    <div className={isImageLeft ? "order-1 md:order-2" : "order-1"}>
                       <h3 className="text-2xl font-semibold text-white/95">
                         {item.title}
                       </h3>
@@ -191,7 +218,7 @@ export default function Projects() {
                             rel="noreferrer"
                             className="rounded-full bg-white/10 px-8 py-3 text-sm text-white/85 ring-1 ring-white/15 backdrop-blur-md transition group-hover:bg-white/20 sm:px-10"
                           >
-                            View Case study
+                             {activeCategory === "blogs" ? "View Article" : "View Case study"}
                           </a>
                         )}
 
@@ -209,7 +236,6 @@ export default function Projects() {
                       </div>
                     </div>
 
-                    {/* image right layout */}
                     {!isImageLeft && (
                       <div className="order-2 flex justify-center md:justify-end">
                         <div className="project-img w-full max-w-[500px] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
@@ -234,26 +260,28 @@ export default function Projects() {
               </h3>
 
               <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-white/65">
-                Blog posts will be added here soon. This section is ready to
-                display articles, design thoughts, development notes, and case
-                study breakdowns.
+                Blog posts will be added here soon.
               </p>
             </div>
           )}
         </div>
 
-        {/* ✅ View More button: only for frontend category when there are hidden items */}
-        {activeCategory === "frontend" && !showMore && activeItems.length > 2 && (
-          <div className="mt-20 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setShowMore(true)}
-              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#5b21b6] px-14 py-3 text-sm font-medium shadow-[0_20px_60px_rgba(124,58,237,0.35)] transition hover:brightness-110"
-            >
-              View More
-            </button>
-          </div>
-        )}
+        {(activeCategory === "frontend" || activeCategory === "caseStudies") &&
+          !showMore &&
+          activeItems.length > 2 && (
+            <div className="mt-20 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowMore(true)}
+                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#5b21b6] px-14 py-3 text-sm font-medium shadow-[0_20px_60px_rgba(124,58,237,0.35)] transition hover:brightness-110"
+              >
+                View More
+                <span className="transition-transform duration-300 group-hover:translate-x-2">
+                  →
+                </span>
+              </button>
+            </div>
+          )}
       </div>
     </section>
   );
