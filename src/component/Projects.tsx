@@ -116,7 +116,7 @@ const blogs: WorkItem[] = [
 ];
 
 export default function Projects() {
-  const [activeCategory, setActiveCategory] = useState<Category>("frontend");
+  const [activeCategory, setActiveCategory] = useState<Category>("caseStudies");
   const [showMore, setShowMore] = useState(false);
 
   const activeItems =
